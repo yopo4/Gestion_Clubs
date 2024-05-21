@@ -10,7 +10,8 @@ public class TestClubDAO {
 //        getClubByIdTest();
 //        createClubTest();
 //        getTopClubsTest();
-        updateClubTest();
+//        updateClubTest();
+//        getMembersCountByClubId();
     }
 
     public static List<Club> getAllClubsTest() {
@@ -22,6 +23,17 @@ public class TestClubDAO {
         return clubs;
     }
 
+    public static int getMembersCountByClubId() {
+        ClubDAOImp clubDAOImp = new ClubDAOImp();
+        int clubId = 1; // Use a valid ID for testing
+        int count = clubDAOImp.getMembersCountByClubId(clubId);
+        if (count != 0) {
+            System.out.println("" + count);
+        } else {
+            System.out.println("" + count);
+        }
+        return count;
+    }
     public static Club getClubByIdTest() {
         ClubDAOImp clubDAOImp = new ClubDAOImp();
         int clubId = 1; // Use a valid ID for testing

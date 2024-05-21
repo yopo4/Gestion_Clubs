@@ -161,5 +161,22 @@ public class EventDAOImp implements EventDAO {
             return false;
         }
     }
+    public int getMembersCountByEventId(int idEvent) {
+        int membersCount = 0;
+        String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer_evenement WHERE ID_EVENEMENT = ?";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
 
+            statement.setInt(1, idEvent);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    membersCount = resultSet.getInt("membersCount");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return membersCount;
+    }
 }

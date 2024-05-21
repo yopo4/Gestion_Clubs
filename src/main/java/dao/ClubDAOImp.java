@@ -123,6 +123,26 @@ public class ClubDAOImp implements ClubDAO {
     }
 
     @Override
+    public int getMembersCountByClubId(int idClub) {
+        int membersCount = 0;
+        String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer WHERE ID_CLUB = ?";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, idClub);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    membersCount = resultSet.getInt("membersCount");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return membersCount;
+    }
+
+    @Override
     public Club updateClub(Club club) {
         String sql = "UPDATE CLUBS SET ID_USER = ?, NOM = ? WHERE ID_CLUB = ?";
         try {

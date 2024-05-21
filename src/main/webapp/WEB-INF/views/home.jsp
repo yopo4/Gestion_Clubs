@@ -29,18 +29,19 @@
                     </c:forEach>
                 </ol>
                 <div class="carousel-inner">
-                    <div class="mb-3">
-                        <c:forEach var="event" items="${events}" varStatus="loop">
-                            <div class="carousel-item ${loop.index == 0 ? 'active' : ''} text-center">
-                                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <c:forEach var="event" items="${events}" varStatus="loop">
+                        <div class="carousel-item ${loop.index == 0 ? 'active' : ''} text-center">
+                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                <a href="${pageContext.request.contextPath}/event?id_event=${event.id_evenement}" class="text-decoration-none text-dark">
                                     <h4>${event.titre}</h4>
                                     <p><strong>Start Date:</strong> ${event.dateDebut}</p>
                                     <p><strong>End Date:</strong> ${event.dateFin}</p>
-                                    <p class="mb-2"><strong>Description:</strong> ${event.description}</p>
-                                </div>
+                                    <p><strong>Description:</strong> ${event.description}</p>
+                                    <p class="mb-2"><strong>Members:</strong> ${eventMembersCount.get(event.id_evenement)}</p>
+                                </a>
                             </div>
-                        </c:forEach>
-                    </div>
+                        </div>
+                    </c:forEach>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -51,7 +52,39 @@
                     <span class="sr-only">Next</span>
                 </a>
         </div>
-    </div>
+        <div class="container mt-5">
+                <h2 class="mb-4">Top 3 Most Registered Clubs:</h2>
+                    <div id="carouselExampleIndicatorsClubs" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <c:forEach var="event" items="${events}" varStatus="loop">
+                                <li data-target="#carouselExampleIndicatorsClubs" data-slide-to="${loop.index}"
+                                    class="${loop.index == 0 ? 'active' : ''}"></li>
+                            </c:forEach>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="mb-3">
+                                <c:forEach var="club" items="${clubs}" varStatus="loop">
+                                    <div class="carousel-item ${loop.index == 0 ? 'active' : ''} text-center">
+                                        <div class="d-flex flex-column justify-content-center align-items-center">
+                                            <a href="${pageContext.request.contextPath}/club?id_club=${club.idClub}" class="text-decoration-none text-dark">
+                                                <h4>${club.nom}</h4>
+                                                <p><strong>Manager :</strong> ${gerantNames.get(club.idUser)}</p>
+                                                <p class="mb-2"><strong>Members :</strong> ${clubMembersCount.get(club.idClub)}</p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicatorsClubs" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicatorsClubs" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                </div>
 
     <!-- Your other HTML content here -->
 
