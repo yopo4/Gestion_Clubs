@@ -11,4 +11,5 @@ public interface ClubDAO {
     List<Club> getTopClubs(int topNumber);
     Club updateClub(Club club);
     String getGerantNameById(int idUser);
+    int getMembersCountByClubId(int idClub);
 }

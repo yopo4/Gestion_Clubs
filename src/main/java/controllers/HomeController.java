@@ -9,6 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import models.Club;
+import models.Event;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,11 +28,28 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int top = 3;
         Map<Integer, String> gerantNames = new HashMap<>();
-        for (int i = 0; i < top; i++) {
+        Map<Integer, Integer> clubMembersCount = new HashMap<>();
+        Map<Integer, Integer> eventMembersCount = new HashMap<>();
 
+        for (Club club : clubDAO.getTopClubs(top)) {
+            gerantNames.put(club.getIdUser(), clubDAO.getGerantNameById(club.getIdUser()));
+            clubMembersCount.put(club.getIdClub(), clubDAO.getMembersCountByClubId(club.getIdClub()));
         }
 
+        for (Event event : eventDAO.selectTopEventsByMembersCount(top)) {
+            eventMembersCount.put(event.getId_evenement(), eventDAO.getMembersCountByEventId(event.getId_evenement()));
+        }
+
+//        for (Map.Entry<Integer, Integer> entry : membersCount.entrySet()) {
+//            int key = entry.getKey();
+//            int value = entry.getValue();
+//            System.out.println("Club ID: " + key + ", Members Count: " + value);
+//        }
+
         req.setAttribute("clubs", clubDAO.getTopClubs(top));
+        req.setAttribute("gerantNames", gerantNames);
+        req.setAttribute("clubMembersCount", clubMembersCount);
+        req.setAttribute("eventMembersCount", eventMembersCount);
         req.setAttribute("events", eventDAO.selectTopEventsByMembersCount(top));
         req.getRequestDispatcher(HOME_PAGE).forward(req, resp);
     }

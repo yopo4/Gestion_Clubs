@@ -10,4 +10,5 @@ public interface EventDAO {
     List<Event> selectTopEventsByMembersCount(int top);
     boolean createEvent(Event event);
     Event updateEvent(Event event);
+    int getMembersCountByEventId(int idEvent);
 }

@@ -91,7 +91,6 @@ public class ClubDAOImp implements ClubDAO {
             while (rs.next()) {
                 int idClub = rs.getInt("ID_CLUB");
                 int idUser = rs.getInt("ID_USER");
-                String nomGerant = rs.getString("NOMGERANT");
                 String nom = rs.getString("NOM");
                 Club club = new Club(idClub, idUser, nom);
                 clubs.add(club);
@@ -121,6 +120,26 @@ public class ClubDAOImp implements ClubDAO {
             e.printStackTrace();
         }
         return gerantName;
+    }
+
+    @Override
+    public int getMembersCountByClubId(int idClub) {
+        int membersCount = 0;
+        String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer WHERE ID_CLUB = ?";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, idClub);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    membersCount = resultSet.getInt("membersCount");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return membersCount;
     }
 
     @Override
