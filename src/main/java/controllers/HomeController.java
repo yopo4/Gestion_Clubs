@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(name = "home", urlPatterns = {"/home"})
 public class HomeController extends HttpServlet {
-    private final String HOME_PAGE = "/WEB-INF/views/protected/home.jsp";
+    private final String HOME_PAGE = "/WEB-INF/views/home.jsp";
     private EventDAO eventDAO = new EventDAOImp();
 
     @Override
