@@ -24,7 +24,7 @@
             <h4>${club.nom}</h4>
             <p><strong>Manager :</strong> ${gerantNames}</p>
             <p class="mb-2"><strong>Members :</strong> ${clubMembersCount}</p>
-            <form action="${pageContext.request.contextPath}/AttendClubController" method="post">
+            <form action="${pageContext.request.contextPath}/AttendClubController?id=${club.idClub}" method="post">
                 <button class="btn btn-dark">Attend</button>
             </form>
         </div>

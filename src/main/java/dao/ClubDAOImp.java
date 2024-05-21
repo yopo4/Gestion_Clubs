@@ -2,6 +2,7 @@ package dao;
 
 import models.Club;
 import models.Event;
+import models.Membre;
 import utils.ConnectionDB;
 
 import java.sql.*;
@@ -120,6 +121,25 @@ public class ClubDAOImp implements ClubDAO {
             e.printStackTrace();
         }
         return gerantName;
+    }
+
+    @Override
+    public boolean addMembreToClub(Club club, Membre membre) {
+        String query = "INSERT INTO INTEGRER (ID_CLUB, ID_MEMBRE) VALUES (?, ?)";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            // Set the parameters for the prepared statement
+            statement.setInt(1, club.getIdClub());
+            statement.setInt(2, membre.getIdMembre());
+
+            // Execute the update and check if a row was inserted
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

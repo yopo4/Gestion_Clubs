@@ -143,6 +143,7 @@ public class EventDAOImp implements EventDAO {
         }
         return updatedEvent;
     }
+
     @Override
     public boolean addMembreToEvent(Event event, Membre membre) {
         String query = "INSERT INTO INTEGRER_EVENEMENT (ID_EVENEMENT, ID_MEMBRE) VALUES (?, ?)";
@@ -161,6 +162,7 @@ public class EventDAOImp implements EventDAO {
             return false;
         }
     }
+
     public int getMembersCountByEventId(int idEvent) {
         int membersCount = 0;
         String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer_evenement WHERE ID_EVENEMENT = ?";
