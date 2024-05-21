@@ -18,8 +18,8 @@ public class EventController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        int eventId = Integer.parseInt(request.getParameter("ID_Event"));
-        int eventId = 1;
+        int eventId = Integer.parseInt(request.getParameter("id_event"));
+//        int eventId = 1;
         Event event = eventDAO.selectEventById(eventId);
         request.setAttribute("event", event);
         request.getRequestDispatcher(EVENT_PAGE).forward(request, response);

@@ -32,7 +32,7 @@
                     <c:forEach var="event" items="${events}" varStatus="loop">
                         <div class="carousel-item ${loop.index == 0 ? 'active' : ''} text-center">
                             <div class="d-flex flex-column justify-content-center align-items-center">
-                                <a href="<c:url value='/exampleServlet'><c:param name='id' value='${id}' />" class="text-decoration-none text-dark">
+                                <a href="${pageContext.request.contextPath}/event?id_event=${event.id_evenement}" class="text-decoration-none text-dark">
                                     <h4>${event.titre}</h4>
                                     <p><strong>Start Date:</strong> ${event.dateDebut}</p>
                                     <p><strong>End Date:</strong> ${event.dateFin}</p>
@@ -66,9 +66,11 @@
                                 <c:forEach var="club" items="${clubs}" varStatus="loop">
                                     <div class="carousel-item ${loop.index == 0 ? 'active' : ''} text-center">
                                         <div class="d-flex flex-column justify-content-center align-items-center">
-                                            <h4>${club.nom}</h4>
-                                            <p><strong>Manager :</strong> ${gerantNames.get(club.idUser)}</p>
-                                            <p class="mb-2"><strong>Members :</strong> ${clubMembersCount.get(club.idClub)}</p>
+                                            <a href="${pageContext.request.contextPath}/club?id_club=${club.idClub}" class="text-decoration-none text-dark">
+                                                <h4>${club.nom}</h4>
+                                                <p><strong>Manager :</strong> ${gerantNames.get(club.idUser)}</p>
+                                                <p class="mb-2"><strong>Members :</strong> ${clubMembersCount.get(club.idClub)}</p>
+                                            </a>
                                         </div>
                                     </div>
                                 </c:forEach>
