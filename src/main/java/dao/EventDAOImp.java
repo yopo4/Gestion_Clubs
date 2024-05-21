@@ -41,7 +41,6 @@ public class EventDAOImp implements EventDAO {
     public Event selectEventById(int idEvent) {
         Event event = null;
         String query = "SELECT * FROM evenements WHERE id_evenement = ?";
-
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -62,6 +61,7 @@ public class EventDAOImp implements EventDAO {
             e.printStackTrace();
         }
         return event;
+
     }
 
     @Override

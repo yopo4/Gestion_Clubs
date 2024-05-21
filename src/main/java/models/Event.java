@@ -55,4 +55,16 @@ public class Event {
     public void setDateFin(String dateFin) {
         this.dateFin = dateFin;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id_evenement=" + id_evenement +
+                ", id_club=" + id_club +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", dateDebut='" + dateDebut + '\'' +
+                ", dateFin='" + dateFin + '\'' +
+                '}';
+    }
 }
