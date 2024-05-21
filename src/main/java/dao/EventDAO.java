@@ -1,6 +1,7 @@
 package dao;
 
 import models.Event;
+import models.Membre;
 
 import java.util.List;
 
@@ -11,4 +12,5 @@ public interface EventDAO {
     boolean createEvent(Event event);
     Event updateEvent(Event event);
     int getMembersCountByEventId(int idEvent);
+     boolean addMembreToEvent(Event event, Membre membre);
 }

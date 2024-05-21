@@ -1,8 +1,12 @@
 package controllers;
 
+import dao.EventDAOImp;
+import dao.MembreDAOImp;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import models.Event;
+import models.Membre;
 import models.User;
 
 import java.io.IOException;
@@ -15,6 +19,8 @@ public class AttendEventController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        EventDAOImp eventDAOImp = new EventDAOImp();
+        MembreDAOImp membreDAOImp = new MembreDAOImp();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null){
@@ -22,7 +28,13 @@ public class AttendEventController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/home");
         }else{
             //add the member to the ones attending
-
+            int idEvent = Integer.parseInt(request.getParameter("id"));
+//            int idEvent = 1;
+            System.out.println(idEvent);
+            Membre membre = membreDAOImp.getMembreByUserId(user.getId_user());
+            Event event = eventDAOImp.selectEventById(idEvent);
+            eventDAOImp.addMembreToEvent(event, membre);
+            response.sendRedirect(request.getContextPath() + "/event?id_event="+idEvent);
         }
     }
 }
