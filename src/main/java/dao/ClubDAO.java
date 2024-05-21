@@ -1,6 +1,7 @@
 package dao;
 
 import models.Club;
+import models.Membre;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface ClubDAO {
     Club updateClub(Club club);
     String getGerantNameById(int idUser);
     int getMembersCountByClubId(int idClub);
+    boolean addMembreToClub(Club club, Membre membre);
 }

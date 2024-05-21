@@ -112,5 +112,4 @@ public class MembreDAOImp implements MembreDAO {
         }
         return membre;
     }
-
 }
