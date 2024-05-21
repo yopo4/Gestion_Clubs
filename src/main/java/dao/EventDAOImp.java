@@ -143,17 +143,23 @@ public class EventDAOImp implements EventDAO {
         }
         return updatedEvent;
     }
-
     @Override
     public boolean addMembreToEvent(Event event, Membre membre) {
-        String query = "INSERT INTO INTEGRER_EVENT VALUES(?, ?)";
-        Connection connection = ConnectionDB.getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
+        String query = "INSERT INTO INTEGRER_EVENT (ID_EVENEMENT, ID_MEMBRE) VALUES (?, ?)";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            // Set the parameters for the prepared statement
+            statement.setInt(1, event.getId_evenement());
+            statement.setInt(2, membre.getIdMembre());
+
+            // Execute the update and check if a row was inserted
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
 }

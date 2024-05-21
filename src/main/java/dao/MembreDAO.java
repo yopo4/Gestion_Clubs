@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface MembreDAO {
     List<Membre> getAllMembres();
-    Membre getMembreById();
-    boolean createMembre();
-    Membre updateMembre();
+    Membre getMembreById(int idMembre);
+    boolean createMembre(Membre membre);
+    Membre updateMembre(Membre membre);
+    Membre getMembreByUserId(int idUser);
 }
