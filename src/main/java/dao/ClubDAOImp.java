@@ -91,7 +91,6 @@ public class ClubDAOImp implements ClubDAO {
             while (rs.next()) {
                 int idClub = rs.getInt("ID_CLUB");
                 int idUser = rs.getInt("ID_USER");
-                String nomGerant = rs.getString("NOMGERANT");
                 String nom = rs.getString("NOM");
                 Club club = new Club(idClub, idUser, nom);
                 clubs.add(club);

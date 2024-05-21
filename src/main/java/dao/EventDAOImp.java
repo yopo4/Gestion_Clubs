@@ -1,6 +1,7 @@
 package dao;
 
 import models.Event;
+import models.Membre;
 import utils.ConnectionDB;
 
 import java.sql.Connection;
@@ -142,4 +143,17 @@ public class EventDAOImp implements EventDAO {
         }
         return updatedEvent;
     }
+
+    @Override
+    public boolean addMembreToEvent(Event event, Membre membre) {
+        String query = "INSERT INTO INTEGRER_EVENT VALUES(?, ?)";
+        Connection connection = ConnectionDB.getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
 }
