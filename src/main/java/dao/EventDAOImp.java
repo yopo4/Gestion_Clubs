@@ -100,14 +100,15 @@ public class EventDAOImp implements EventDAO {
 
     @Override
     public boolean createEvent(Event event) {
-        String query = "INSERT INTO evenements (titre, description, date_debut, date_fin) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO evenements (id_club, titre, description, date_debut, date_fin) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            statement.setString(1, event.getTitre());
-            statement.setString(2, event.getDescription());
-            statement.setString(3, event.getDateDebut());
-            statement.setString(4, event.getDateFin());
+            statement.setInt(1, event.getId_club());
+            statement.setString(2, event.getTitre());
+            statement.setString(3, event.getDescription());
+            statement.setString(4, event.getDateDebut());
+            statement.setString(5, event.getDateFin());
 
             int rowsInserted = statement.executeUpdate();
             return rowsInserted > 0;

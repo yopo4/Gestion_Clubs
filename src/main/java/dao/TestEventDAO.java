@@ -9,7 +9,7 @@ public class TestEventDAO {
     public static void main(String[] args) {
 //        selectAllEventsTest();
 //        selectEventByIdTest();
-        selectTopEventsByMembersCountTest();
+//        selectTopEventsByMembersCountTest();
 //        createEventTest();
 //        updateEventTest();
     }
@@ -48,6 +48,7 @@ public class TestEventDAO {
     public static void createEventTest() {
         EventDAOImp eventDAOImp = new EventDAOImp();
         Event event = new Event();
+        event.setId_club(1);
         event.setTitre("New Event");
         event.setDescription("Description of the new event");
         event.setDateDebut("2024-06-01");
