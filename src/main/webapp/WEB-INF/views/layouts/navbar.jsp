@@ -7,7 +7,7 @@
             aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand mr-6" href="#">
+    <a class="navbar-brand mr-6" href="${pageContext.request.contextPath}/home">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6">
             <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
@@ -22,7 +22,7 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-dark my-2 my-sm-0" type="submit">Login</a>
+            <a class="btn btn-outline-dark my-2 my-sm-0" href="${pageContext.request.contextPath}/login">Login</a>
         </form>
     </div>
 </nav>

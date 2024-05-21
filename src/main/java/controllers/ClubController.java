@@ -25,7 +25,6 @@ public class ClubController extends HttpServlet {
         String gerantNames = clubDAO.getGerantNameById(clubDAO.getClubById(clubId).getIdUser());
         int clubMembersCount = clubDAO.getMembersCountByClubId(clubDAO.getClubById(clubId).getIdUser());
 
-//        int clubId = 1;
         Club club = clubDAO.getClubById(clubId);
         request.setAttribute("club", club);
         request.setAttribute("clubMembersCount", clubMembersCount);
