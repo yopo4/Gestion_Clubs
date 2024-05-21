@@ -1,19 +1,11 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package models;
 
 public class Membre {
     private int idMembre;
     private String nom;
 
-    public Membre() {
-    }
-
     public int getIdMembre() {
-        return this.idMembre;
+        return idMembre;
     }
 
     public void setIdMembre(int idMembre) {
@@ -21,14 +13,19 @@ public class Membre {
     }
 
     public String getNom() {
-        return this.nom;
+        return nom;
     }
 
     public void setNom(String nom) {
         this.nom = nom;
     }
 
+    @Override
     public String toString() {
-        return "Membre{idMembre=" + this.idMembre + ", nom='" + this.nom + "'}";
+        return "Membre{" +
+                "idMembre=" + idMembre +
+                ", nom='" + nom + '\'' +
+                '}';
     }
 }
+
