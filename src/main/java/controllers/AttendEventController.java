@@ -28,11 +28,13 @@ public class AttendEventController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/home");
         }else{
             //add the member to the ones attending
-            int idEvent = (int) request.getAttribute("id");
+            int idEvent = Integer.parseInt(request.getParameter("id"));
+//            int idEvent = 1;
+            System.out.println(idEvent);
             Membre membre = membreDAOImp.getMembreByUserId(user.getId_user());
             Event event = eventDAOImp.selectEventById(idEvent);
             eventDAOImp.addMembreToEvent(event, membre);
-            response.sendRedirect(request.getContextPath() + "/event?"+idEvent);
+            response.sendRedirect(request.getContextPath() + "/event?id_event="+idEvent);
         }
     }
 }

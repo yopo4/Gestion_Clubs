@@ -145,7 +145,7 @@ public class EventDAOImp implements EventDAO {
     }
     @Override
     public boolean addMembreToEvent(Event event, Membre membre) {
-        String query = "INSERT INTO INTEGRER_EVENT (ID_EVENEMENT, ID_MEMBRE) VALUES (?, ?)";
+        String query = "INSERT INTO INTEGRER_EVENEMENT (ID_EVENEMENT, ID_MEMBRE) VALUES (?, ?)";
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
