@@ -25,9 +25,9 @@ public class ClubDAOImp implements ClubDAO {
             int idClub;
             int idUser;
             String nom;
-            Club club = new Club();
             ArrayList<Club> clubs = new ArrayList<Club>();
             while (rs.next()){
+                Club club = new Club();
                 idClub = rs.getInt("ID_CLUB");
                 idUser = rs.getInt("ID_USER");
                 nom = rs.getString("NOM");
