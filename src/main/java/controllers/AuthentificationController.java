@@ -42,21 +42,14 @@ public class AuthentificationController extends HttpServlet {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
                 if (user.getRole().equals("admin")) {
-                    req.getRequestDispatcher(ADMIN_HOME_PAGE).forward(req, resp);
-//                System.out.println(req.getContextPath() + "/admin/show.jsp");
-//                resp.sendRedirect(req.getContextPath() + "/admin/show.jsp");
+                    resp.sendRedirect(req.getContextPath() + "/admin/home");
+                } else {
+                    resp.sendRedirect(req.getContextPath() + "/home");
                 }
-                req.getRequestDispatcher(HOME_PAGE).forward(req, resp);
-//            resp.sendRedirect(req.getContextPath() + HOME_PAGE);
             } else {
                 req.setAttribute("errorMessage", "Invalid email or password");
                 req.getRequestDispatcher(LOGIN_PAGE).forward(req, resp);
             }
-        } else if (req.getServletPath().equals("/logout")) {
-            HttpSession session = req.getSession();
-            session.setAttribute("user", null);
-            req.getRequestDispatcher(HOME_PAGE).forward(req, resp);
-            System.out.println("test1: " + req.getServletPath());
         }
     }
 }
