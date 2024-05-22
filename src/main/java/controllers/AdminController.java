@@ -18,6 +18,7 @@ import java.util.Map;
 
 @WebServlet(name = "admin", urlPatterns = {"/admin/clubs/show", "/admin/events/show", "/admin/home"})
 public class AdminController extends HttpServlet {
+    private final String ADMIN_HOME_PAGE = "/WEB-INF/views/admin/home.jsp";
     private final String ADMIN_CLUB_PAGE = "/WEB-INF/views/admin/club/show.jsp";
     private final String ADMIN_EVENT_PAGE = "/WEB-INF/views/admin/event/show.jsp";
     private final String LOGIN_PAGE = "/WEB-INF/views/authentification/login.jsp";
@@ -58,6 +59,12 @@ public class AdminController extends HttpServlet {
                 request.setAttribute("events", events);
                 request.setAttribute("eventMembersCount", eventMembersCount);
                 request.getRequestDispatcher(ADMIN_EVENT_PAGE).forward(request, response);
+            } else {
+                request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
+            }
+        } else if (request.getServletPath().equals("/admin/home")) {
+            if (user != null) {
+                request.getRequestDispatcher(ADMIN_HOME_PAGE).forward(request, response);
             } else {
                 request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
             }
