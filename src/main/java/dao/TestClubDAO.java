@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TestClubDAO {
     public static void main(String[] args) {
-//        getAllClubsTest();
+        getAllClubsTest();
 //        getClubByIdTest();
 //        createClubTest();
 //        getTopClubsTest();
