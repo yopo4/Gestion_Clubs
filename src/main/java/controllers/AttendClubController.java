@@ -27,7 +27,7 @@ public class AttendClubController extends HttpServlet {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             //change sending to home to sign up
-            response.sendRedirect(request.getContextPath() + "/home");
+            response.sendRedirect(request.getContextPath() + "/login");
         } else {
             //add the member to the ones attending
             int idClub = Integer.parseInt(request.getParameter("id"));
