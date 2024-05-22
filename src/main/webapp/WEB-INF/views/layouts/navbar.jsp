@@ -25,6 +25,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/events">Events <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item">
+                <c:if test="${sessionScope.user != null}">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/myClubs">My Club <span class="sr-only">(current)</span></a>
+                </c:if>
+            </li>
         </ul>
         <c:if test="${sessionScope.user == null}">
             <form class="form-inline my-2 my-lg-0">

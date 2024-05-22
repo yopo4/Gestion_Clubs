@@ -143,6 +143,34 @@ public class ClubDAOImp implements ClubDAO {
     }
 
     @Override
+    public List<Club> getClubsOfMember(int id_member) {
+        String sql = "SELECT C.* FROM CLUBS C INNER JOIN INTEGRER I ON C.ID_CLUB=I.ID_CLUB WHERE I.ID_MEMBRE=?";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1,id_member);
+            rs = pst.executeQuery();
+            int idClub;
+            int idUser;
+            String nom;
+            List<Club> clubs = new ArrayList<Club>();
+            while (rs.next()){
+                Club club = new Club();
+                idClub = rs.getInt("ID_CLUB");
+                idUser = rs.getInt("ID_USER");
+                nom = rs.getString("NOM");
+                club.setIdClub(idClub);
+                club.setIdUser(idUser);
+                club.setNom(nom);
+                clubs.add(club);
+            }
+            return clubs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public int getMembersCountByClubId(int idClub) {
         int membersCount = 0;
         String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer WHERE ID_CLUB = ?";
