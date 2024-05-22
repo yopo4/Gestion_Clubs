@@ -26,8 +26,15 @@
                 <a class="nav-link" href="${pageContext.request.contextPath}/events">Events <span class="sr-only">(current)</span></a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-dark my-2 my-sm-0" href="${pageContext.request.contextPath}/login">Login</a>
-        </form>
+        <c:if test="${sessionScope.user == null}">
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-outline-dark my-2 my-sm-0" href="${pageContext.request.contextPath}/login">Login</a>
+            </form>
+        </c:if>
+        <c:if test="${sessionScope.user != null}">
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-outline-dark my-2 my-sm-0" href="${pageContext.request.contextPath}/logout">Logout</a>
+            </form>
+        </c:if>
     </div>
 </nav>

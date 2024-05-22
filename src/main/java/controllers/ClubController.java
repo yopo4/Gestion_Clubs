@@ -6,11 +6,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.Club;
-import models.Event;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @WebServlet(name = "club", value = "/club")
 public class ClubController extends HttpServlet {
