@@ -14,6 +14,9 @@
     <jsp:include page="/WEB-INF/views/layouts/navbar.jsp"/>
     <div class="container mt-5">
         <h1 class="mb-4">Events Management</h1>
+        <div class="mb-3">
+            <a href="${pageContext.request.contextPath}/admin/events/add" class="btn btn-dark">Add Event</a>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -22,6 +25,7 @@
                     <th scope="col">End Date</th>
                     <th scope="col">Description</th>
                     <th scope="col">Number of Members</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +36,9 @@
                         <td>${event.dateFin}</td>
                         <td>${event.description}</td>
                         <td>${eventMembersCount[event.id_evenement]}</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/admin/events/update?id=${event.id_evenement}" class="btn btn-primary">Edit</a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

@@ -6,9 +6,9 @@ import java.util.List;
 
 public class TestClubDAO {
     public static void main(String[] args) {
-        getAllClubsTest();
+//        getAllClubsTest();
 //        getClubByIdTest();
-//        createClubTest();
+        createClubTest();
 //        getTopClubsTest();
 //        updateClubTest();
 //        getMembersCountByClubId();
@@ -48,7 +48,7 @@ public class TestClubDAO {
 
     public static void createClubTest() {
         ClubDAOImp clubDAOImp = new ClubDAOImp();
-        Club club = new Club(0, 0, "New Club"); // ID_CLUB is auto-incremented
+        Club club = new Club(0, 1, "New Club"); // ID_CLUB is auto-incremented
         boolean isCreated = clubDAOImp.createClub(club);
         if (isCreated) {
             System.out.println("Club created successfully: " + club);

@@ -66,7 +66,11 @@ public class ClubDAOImp implements ClubDAO {
         String sql = "INSERT INTO CLUBS (ID_USER, NOM) VALUES (?, ?)";
         try {
             pst = con.prepareStatement(sql);
-            pst.setObject(1, null);
+            if (club.getIdUser() == 0) {
+                pst.setNull(1, java.sql.Types.INTEGER);
+            } else {
+                pst.setInt(1, club.getIdUser());
+            }
             pst.setString(2, club.getNom());
             int affectedRows = pst.executeUpdate();
             return affectedRows > 0;

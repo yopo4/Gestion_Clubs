@@ -19,10 +19,13 @@ public class ClubController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int clubId = Integer.parseInt(request.getParameter("id_club"));
-        String gerantNames = clubDAO.getGerantNameById(clubDAO.getClubById(clubId).getIdUser());
-        int clubMembersCount = clubDAO.getMembersCountByClubId(clubDAO.getClubById(clubId).getIdUser());
-
         Club club = clubDAO.getClubById(clubId);
+        String gerantNames = clubDAO.getGerantNameById(club.getIdUser());
+        int clubMembersCount = clubDAO.getMembersCountByClubId(club.getIdClub());
+        System.out.println("test "+clubId);
+        System.out.println(clubMembersCount);
+        System.out.println(clubDAO.getClubById(clubId).toString());
+
         request.setAttribute("club", club);
         request.setAttribute("clubMembersCount", clubMembersCount);
         request.setAttribute("gerantNames", gerantNames);

@@ -14,20 +14,34 @@
     <jsp:include page="/WEB-INF/views/layouts/navbar.jsp"/>
     <div class="container mt-5">
         <h1 class="mb-4">Clubs Management</h1>
+        <div class="mb-3">
+            <a href="${pageContext.request.contextPath}/admin/clubs/add" class="btn btn-dark">Add Club</a>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">Club Name</th>
                     <th scope="col">Gerant Name</th>
                     <th scope="col">Number of Members</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach var="club" items="${clubs}">
                     <tr>
                         <td>${club.nom}</td>
-                        <td>${gerantNames[club.idUser]}</td>
+                        <c:choose>
+                            <c:when test="${not empty gerantNames[club.idUser]}">
+                                <td>${gerantNames[club.idUser]}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>No manager</td>
+                            </c:otherwise>
+                        </c:choose>
                         <td>${clubMembersCount[club.idClub]}</td>
+                        <td>
+                            <a href="${pageContext.request.contextPath}/admin/clubs/update?id=${club.idClub}" class="btn btn-primary">Edit</a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

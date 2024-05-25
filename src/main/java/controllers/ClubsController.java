@@ -31,6 +31,7 @@ public class ClubsController extends HttpServlet {
             gerantNames.put(club.getIdUser(), clubDAO.getGerantNameById(club.getIdUser()));
             clubMembersCount.put(club.getIdClub(), clubDAO.getMembersCountByClubId(club.getIdClub()));
         }
+
         request.setAttribute("clubs", clubs);
         request.setAttribute("clubMembersCount", clubMembersCount);
         request.setAttribute("gerantNames", gerantNames);
