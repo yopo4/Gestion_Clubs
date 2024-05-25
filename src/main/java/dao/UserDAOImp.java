@@ -75,6 +75,7 @@ public class UserDAOImp implements UserDAO {
                     user.setEmail(resultSet.getString("email"));
                     user.setPassword(resultSet.getString("mot_de_passe"));
                     user.setRole(resultSet.getString("role"));
+                    user.setId_membre(resultSet.getInt("id_membre"));
                 }
             }
         } catch (SQLException e) {

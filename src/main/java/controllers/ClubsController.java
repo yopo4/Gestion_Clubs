@@ -7,6 +7,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.Club;
 import models.Event;
+import models.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "clubs", value = "/clubs")
+@WebServlet(name = "clubs", value = {"/clubs","/myClubs"})
 public class ClubsController extends HttpServlet {
 
     private final String CLUBS_PAGE = "/WEB-INF/views/protected/clubs.jsp";
@@ -23,7 +24,19 @@ public class ClubsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Club> clubs = clubDAO.getAllClubs();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        List<Club> clubs = null;
+        if(request.getServletPath().equals("/clubs")){
+            clubs = clubDAO.getAllClubs();
+        } else if (request.getServletPath().equals("/myClubs")) {
+            if(user == null){
+                request.getRequestDispatcher("/WEB-INF/views/authentification/login.jsp").forward(request, response);
+            }
+            System.out.println(user);
+            clubs = clubDAO.getClubsOfMember(user.getId_membre());
+            System.out.println(clubs);
+        }
         Map<Integer, String> gerantNames = new HashMap<>();
         Map<Integer, Integer> clubMembersCount = new HashMap<>();
 

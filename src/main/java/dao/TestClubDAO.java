@@ -12,6 +12,7 @@ public class TestClubDAO {
 //        getTopClubsTest();
 //        updateClubTest();
 //        getMembersCountByClubId();
+        testGetClubsOfMember();
     }
 
     public static List<Club> getAllClubsTest() {
@@ -22,7 +23,16 @@ public class TestClubDAO {
         }
         return clubs;
     }
+    public static void testGetClubsOfMember() {
+        ClubDAOImp clubDAOImp = new ClubDAOImp();
+        int memberId = 1; // Replace with an existing member ID for testing
+        List<Club> clubs = clubDAOImp.getClubsOfMember(memberId);
 
+        System.out.println("Clubs of Member with ID " + memberId + ":");
+        for (Club club : clubs) {
+            System.out.println("ID_CLUB: " + club.getIdClub() + ", ID_USER: " + club.getIdUser() + ", NOM: " + club.getNom());
+        }
+    }
     public static int getMembersCountByClubId() {
         ClubDAOImp clubDAOImp = new ClubDAOImp();
         int clubId = 1; // Use a valid ID for testing

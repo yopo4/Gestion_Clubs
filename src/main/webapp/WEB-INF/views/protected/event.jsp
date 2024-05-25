@@ -25,6 +25,7 @@
             <p><strong>Start Date:</strong> ${event.dateDebut}</p>
             <p><strong>End Date:</strong> ${event.dateFin}</p>
             <p class="mb-2"><strong>Description:</strong> ${event.description}</p>
+            <p><strong>Members: </strong> ${eventMembersCount}</p>
             <form action="${pageContext.request.contextPath}/AttendEventController?id=${event.id_evenement}" method="post">
                 <button class="btn btn-dark">Attend</button>
             </form>
