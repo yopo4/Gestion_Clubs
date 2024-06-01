@@ -10,7 +10,18 @@ public class TestMembreDAO {
 //        testGetMembreById();
 //        testCreateMembre();
 //        testUpdateMembre();
-        testGetMembreByUserId();
+//        testGetMembreByUserId();
+        testIsGerant();
+    }
+    public static void testIsGerant(){
+        MembreDAO membreDAO = new MembreDAOImp();
+        Membre membre = new Membre();
+        membre.setIdMembre(1);
+        if(membreDAO.isGerant(membre)){
+            System.out.println("Le membre est un gerant");
+        }else{
+            System.out.println("Le membre n'est pas un gerant");
+        }
     }
 
     public static void testGetAllMembres() {

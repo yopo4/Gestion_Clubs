@@ -112,4 +112,23 @@ public class MembreDAOImp implements MembreDAO {
         }
         return membre;
     }
+
+    @Override
+    public boolean isGerant(Membre membre) {
+        String query = "select * from integrer where id_membre = ?";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, membre.getIdMembre());
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                if(rs.getBoolean("role")){
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
 }

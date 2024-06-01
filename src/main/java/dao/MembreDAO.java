@@ -10,4 +10,5 @@ public interface MembreDAO {
     boolean createMembre(Membre membre);
     Membre updateMembre(Membre membre);
     Membre getMembreByUserId(int idUser);
+    boolean isGerant(Membre membre);
 }

@@ -1,6 +1,8 @@
 package dao;
 
 import models.Club;
+import models.Membre;
+import models.User;
 
 import java.util.List;
 
@@ -8,11 +10,32 @@ public class TestClubDAO {
     public static void main(String[] args) {
 //        getAllClubsTest();
 //        getClubByIdTest();
-        createClubTest();
+//        createClubTest();
 //        getTopClubsTest();
 //        updateClubTest();
 //        getMembersCountByClubId();
-        testGetClubsOfMember();
+//        testGetClubsOfMember();
+//        testGetClubsOfManager();
+        testUserIsMemberOfClub();
+    }
+    public static void testUserIsMemberOfClub(){
+        ClubDAO clubDAO = new ClubDAOImp();
+        User user = new User();
+        user.setId_user(4);
+        Club club = new Club();
+        club.setIdClub(4);
+        if(clubDAO.userIsMemberOfClub(user,club)){
+            System.out.println("user is part of the club");
+        }else{
+            System.out.println("user is not a part of the club");
+        }
+    }
+    public static void testGetClubsOfManager(){
+        ClubDAO clubDAO = new ClubDAOImp();
+        Membre membre = new Membre();
+        membre.setIdMembre(1);
+        List<Club> clubs = clubDAO.getClubsOfManager(membre);
+        System.out.println(clubs);
     }
 
     public static List<Club> getAllClubsTest() {
