@@ -1,5 +1,6 @@
 package dao;
 
+import models.Club;
 import models.Membre;
 import utils.ConnectionDB;
 
@@ -130,5 +131,26 @@ public class MembreDAOImp implements MembreDAO {
             return false;
         }
         return false;
+    }
+
+    @Override
+    public List<Membre> getMembersRequestingToJoinClub(Club club) {
+        String query = "select m.* from membres m join integrer i on m.ID_MEMBRE = i.ID_MEMBRE join clubs c on c.ID_CLUB = i.ID_CLUB where c.ID_CLUB = ? and i.is_accepted = false";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, club.getIdClub());
+            ResultSet rs = statement.executeQuery();
+            List<Membre> membres = new ArrayList<>();
+            while(rs.next()){
+               Membre membre = new Membre();
+               membre.setIdMembre(rs.getInt("id_membre"));
+               membre.setNom(rs.getString("nom"));
+               membres.add(membre);
+            }
+            return membres;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

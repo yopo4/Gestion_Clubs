@@ -16,7 +16,17 @@ public class TestClubDAO {
 //        getMembersCountByClubId();
 //        testGetClubsOfMember();
 //        testGetClubsOfManager();
-        testUserIsMemberOfClub();
+//        testUserIsMemberOfClub();
+        testAcceptMemberInClub();
+    }
+    public static void testAcceptMemberInClub(){
+        ClubDAO clubDAO = new ClubDAOImp();
+        Membre membre = new Membre();
+        Club club = new Club();
+        membre.setIdMembre(2);
+        club.setIdClub(2);
+        clubDAO.acceptMemberInClub(membre,club);
+
     }
     public static void testUserIsMemberOfClub(){
         ClubDAO clubDAO = new ClubDAOImp();

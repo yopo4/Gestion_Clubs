@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import models.Club;
 import models.Membre;
 
 public class TestMembreDAO {
@@ -11,7 +12,15 @@ public class TestMembreDAO {
 //        testCreateMembre();
 //        testUpdateMembre();
 //        testGetMembreByUserId();
-        testIsGerant();
+//        testIsGerant();
+        testgetMembersRequestingToJoinClub();
+    }
+    public static void testgetMembersRequestingToJoinClub(){
+        MembreDAO membreDAO = new MembreDAOImp();
+        Club club = new Club();
+        club.setIdClub(4);
+        List<Membre> membres = membreDAO.getMembersRequestingToJoinClub(club);
+        System.out.println(membres);
     }
     public static void testIsGerant(){
         MembreDAO membreDAO = new MembreDAOImp();

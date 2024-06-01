@@ -221,6 +221,20 @@ public class ClubDAOImp implements ClubDAO {
     }
 
     @Override
+    public void acceptMemberInClub(Membre membre, Club club) {
+
+        String sql = "update integrer set is_accepted = true where ID_MEMBRE = ? and ID_CLUB = ?";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, membre.getIdMembre());
+            pst.setInt(2, club.getIdClub());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public int getMembersCountByClubId(int idClub) {
         int membersCount = 0;
         String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer WHERE ID_CLUB = ?";

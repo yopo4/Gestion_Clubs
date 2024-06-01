@@ -1,5 +1,6 @@
 package dao;
 
+import models.Club;
 import models.Membre;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface MembreDAO {
     Membre updateMembre(Membre membre);
     Membre getMembreByUserId(int idUser);
     boolean isGerant(Membre membre);
+    List<Membre> getMembersRequestingToJoinClub(Club club);
+
 }

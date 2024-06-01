@@ -18,4 +18,5 @@ public interface ClubDAO {
     List<Club> getClubsOfMember(int id_member);
     List<Club> getClubsOfManager(Membre membre);
     boolean userIsMemberOfClub(User user, Club club);
+    void acceptMemberInClub(Membre membre,Club club);
 }
