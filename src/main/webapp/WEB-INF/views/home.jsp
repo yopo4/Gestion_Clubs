@@ -35,7 +35,7 @@
                             <div class="d-flex flex-column justify-content-center align-items-center">
                                 <a href="${pageContext.request.contextPath}/club?id_club=${club.idClub}" class="text-decoration-none text-dark">
                                     <h4>${club.nom}</h4>
-                                    <p><strong>Manager :</strong> ${gerantNames.get(club.idUser)}</p>
+                                    <p><strong>Manager :</strong> ${gerantNames.get(club.idClub)}</p>
                                     <p class="mb-2"><strong>Members :</strong> ${clubMembersCount.get(club.idClub)}</p>
                                 </a>
                             </div>

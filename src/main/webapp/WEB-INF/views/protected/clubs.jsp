@@ -26,7 +26,7 @@
                     <div class="card shadow mb-2">
                         <div class="card-body">
                             <h3>${club.nom}</h3>
-                            <span class="text-muted">Managed by:</span><span class="font-weight-bold"> ${gerantNames.get(club.idUser)}</span>
+                            <span class="text-muted">Managed by:</span><span class="font-weight-bold"> ${gerantNames.get(club.idClub)}</span>
                             <p><strong>Members: </strong>${clubMembersCount.get(club.idClub)}</p>
                         </div>
                     </div>

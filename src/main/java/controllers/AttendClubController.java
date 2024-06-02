@@ -1,13 +1,11 @@
 package controllers;
 
 import dao.ClubDAOImp;
-import dao.EventDAOImp;
 import dao.MembreDAOImp;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.Club;
-import models.Event;
 import models.Membre;
 import models.User;
 
@@ -36,7 +34,7 @@ public class AttendClubController extends HttpServlet {
             Membre membre = membreDAOImp.getMembreByUserId(user.getId_user());
             System.out.println(membre);
             Club club = clubDAOImp.getClubById(idClub);
-            clubDAOImp.addMembreToClub(club, membre);
+            clubDAOImp.addMembreToClubTemp(club, membre);
             response.sendRedirect(request.getContextPath() + "/club?id_club=" + idClub);
         }
     }

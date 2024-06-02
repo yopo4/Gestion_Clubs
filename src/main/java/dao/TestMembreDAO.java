@@ -19,7 +19,7 @@ public class TestMembreDAO {
         MembreDAO membreDAO = new MembreDAOImp();
         Club club = new Club();
         club.setIdClub(4);
-        List<Membre> membres = membreDAO.getMembersRequestingToJoinClub(club);
+        List<Membre> membres = membreDAO.getMembersOfClub(club, false);
         System.out.println(membres);
     }
     public static void testIsGerant(){

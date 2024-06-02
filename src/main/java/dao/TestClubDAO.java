@@ -17,23 +17,35 @@ public class TestClubDAO {
 //        testGetClubsOfMember();
 //        testGetClubsOfManager();
 //        testUserIsMemberOfClub();
-        testAcceptMemberInClub();
+//        testAcceptMemberInClub();
+        testIsGerantOfClub();
+    }
+    public static void testIsGerantOfClub(){
+        ClubDAO clubDAO = new ClubDAOImp();
+        Membre membre = new Membre();
+        Club club = new Club();
+        membre.setIdMembre(2);
+        club.setIdClub(4);
+        if(clubDAO.isGerantOfClub(membre,club)){
+            System.out.println("Member is manager");
+        }
+
     }
     public static void testAcceptMemberInClub(){
         ClubDAO clubDAO = new ClubDAOImp();
         Membre membre = new Membre();
         Club club = new Club();
         membre.setIdMembre(2);
-        club.setIdClub(2);
+        club.setIdClub(8);
         clubDAO.acceptMemberInClub(membre,club);
 
     }
     public static void testUserIsMemberOfClub(){
         ClubDAO clubDAO = new ClubDAOImp();
         User user = new User();
-        user.setId_user(4);
+        user.setId_user(2);
         Club club = new Club();
-        club.setIdClub(4);
+        club.setIdClub(3);
         if(clubDAO.userIsMemberOfClub(user,club)){
             System.out.println("user is part of the club");
         }else{
@@ -63,7 +75,7 @@ public class TestClubDAO {
 
         System.out.println("Clubs of Member with ID " + memberId + ":");
         for (Club club : clubs) {
-            System.out.println("ID_CLUB: " + club.getIdClub() + ", ID_USER: " + club.getIdUser() + ", NOM: " + club.getNom());
+            System.out.println("ID_CLUB: " + club.getIdClub() + "," + "NOM: " + club.getNom());
         }
     }
     public static int getMembersCountByClubId() {
@@ -91,7 +103,7 @@ public class TestClubDAO {
 
     public static void createClubTest() {
         ClubDAOImp clubDAOImp = new ClubDAOImp();
-        Club club = new Club(0, 1, "New Club"); // ID_CLUB is auto-incremented
+        Club club = new Club(0, "New Club"); // ID_CLUB is auto-incremented
         boolean isCreated = clubDAOImp.createClub(club);
         if (isCreated) {
             System.out.println("Club created successfully: " + club);

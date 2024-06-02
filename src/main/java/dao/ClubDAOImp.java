@@ -30,10 +30,8 @@ public class ClubDAOImp implements ClubDAO {
             while (rs.next()){
                 Club club = new Club();
                 idClub = rs.getInt("ID_CLUB");
-                idUser = rs.getInt("ID_USER");
                 nom = rs.getString("NOM");
                 club.setIdClub(idClub);
-                club.setIdUser(idUser);
                 club.setNom(nom);
                 clubs.add(club);
             }
@@ -52,9 +50,8 @@ public class ClubDAOImp implements ClubDAO {
             rs = pst.executeQuery();
             if (rs.next()) {
                 int idClub = rs.getInt("ID_CLUB");
-                int idUser = rs.getInt("ID_USER");
                 String nom = rs.getString("NOM");
-                return new Club(idClub, idUser, nom);
+                return new Club(idClub, nom);
             }
             return null;
         } catch (SQLException e) {
@@ -71,9 +68,8 @@ public class ClubDAOImp implements ClubDAO {
             rs = pst.executeQuery();
             if (rs.next()) {
                 int idClub = rs.getInt("ID_CLUB");
-                int idUser = rs.getInt("ID_USER");
                 String nom = rs.getString("NOM");
-                return new Club(idClub, idUser, nom);
+                return new Club(idClub, nom);
             }
             return null;
         } catch (SQLException e) {
@@ -81,17 +77,53 @@ public class ClubDAOImp implements ClubDAO {
             return null;
         }
     }
+
     @Override
-    public boolean createClub(Club club) {
-        String sql = "INSERT INTO CLUBS (ID_USER, NOM) VALUES (?, ?)";
+    public int getNumberOfRequests(Club club) {
+        String sql = "select count(*) as requests from integrer i where i.ID_CLUB = ? and i.is_accepted = 0";
         try {
             pst = con.prepareStatement(sql);
-            if (club.getIdUser() == 0) {
-                pst.setNull(1, java.sql.Types.INTEGER);
-            } else {
-                pst.setInt(1, club.getIdUser());
+            pst.setInt(1, club.getIdClub());
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("requests");
             }
-            pst.setString(2, club.getNom());
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public boolean isGerantOfClub(Membre membre, Club club) {
+        String sql = "select role from integrer i where i.ID_MEMBRE = ? and i.ID_CLUB = ?;";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, membre.getIdMembre());
+            pst.setInt(2, club.getIdClub());
+
+            ResultSet rs = pst.executeQuery();
+
+            // Check if there is at least one result
+            if (rs.next()) {
+                int role = rs.getInt("role");
+                return role == 1;
+            } else {
+                return false; // No result found
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean createClub(Club club) {
+        String sql = "INSERT INTO CLUBS (NOM) VALUES (?)";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setString(1, club.getNom());
             int affectedRows = pst.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
@@ -102,7 +134,7 @@ public class ClubDAOImp implements ClubDAO {
 
     @Override
     public ArrayList<Club> getTopClubs(int topNumber) {
-        String sql = "SELECT c.ID_CLUB, c.ID_USER, c.NOM, COUNT(i.ID_MEMBRE) AS memberCount " +
+        String sql = "SELECT c.ID_CLUB, c.NOM, COUNT(i.ID_MEMBRE) AS memberCount " +
                 "FROM CLUBS c " +
                 "LEFT JOIN INTEGRER i ON c.ID_CLUB = i.ID_CLUB " +
                 "GROUP BY c.ID_CLUB " +
@@ -115,9 +147,8 @@ public class ClubDAOImp implements ClubDAO {
             ArrayList<Club> clubs = new ArrayList<>();
             while (rs.next()) {
                 int idClub = rs.getInt("ID_CLUB");
-                int idUser = rs.getInt("ID_USER");
                 String nom = rs.getString("NOM");
-                Club club = new Club(idClub, idUser, nom);
+                Club club = new Club(idClub, nom);
                 clubs.add(club);
             }
             return clubs;
@@ -127,6 +158,7 @@ public class ClubDAOImp implements ClubDAO {
         }
     }
 
+    //FIX: had l method gha zayda, nkhdmo b userDAO getUserById 7ssn
     @Override
     public String getGerantNameById(int idUser) {
         String gerantName = "";
@@ -148,7 +180,7 @@ public class ClubDAOImp implements ClubDAO {
     }
 
     @Override
-    public boolean addMembreToClub(Club club, Membre membre) {
+    public boolean addMembreToClubTemp(Club club, Membre membre) {
         String query = "INSERT INTO INTEGRER (ID_CLUB, ID_MEMBRE) VALUES (?, ?)";
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -168,22 +200,19 @@ public class ClubDAOImp implements ClubDAO {
 
     @Override
     public List<Club> getClubsOfMember(int id_member) {
-        String sql = "SELECT C.* FROM CLUBS C INNER JOIN INTEGRER I ON C.ID_CLUB=I.ID_CLUB WHERE I.ID_MEMBRE=?";
+        String sql = "SELECT C.* FROM CLUBS C INNER JOIN INTEGRER I ON C.ID_CLUB=I.ID_CLUB WHERE I.ID_MEMBRE=? and i.is_accepted=true";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1,id_member);
             rs = pst.executeQuery();
             int idClub;
-            int idUser;
             String nom;
             List<Club> clubs = new ArrayList<Club>();
             while (rs.next()){
                 Club club = new Club();
                 idClub = rs.getInt("ID_CLUB");
-                idUser = rs.getInt("ID_USER");
                 nom = rs.getString("NOM");
                 club.setIdClub(idClub);
-                club.setIdUser(idUser);
                 club.setNom(nom);
                 clubs.add(club);
             }
@@ -203,16 +232,13 @@ public class ClubDAOImp implements ClubDAO {
             pst.setBoolean(2,true);
             rs = pst.executeQuery();
             int idClub;
-            int idUser;
             String nom;
             List<Club> clubs = new ArrayList<Club>();
             while (rs.next()){
                 Club club = new Club();
                 idClub = rs.getInt("ID_CLUB");
-                idUser = rs.getInt("ID_USER");
                 nom = rs.getString("NOM");
                 club.setIdClub(idClub);
-                club.setIdUser(idUser);
                 club.setNom(nom);
                 clubs.add(club);
             }
@@ -225,7 +251,7 @@ public class ClubDAOImp implements ClubDAO {
 
     @Override
     public boolean userIsMemberOfClub(User user, Club club) {
-        String sql = "select count(*) from users u join membres m on u.ID_MEMBRE = m.ID_MEMBRE join integrer i on m.ID_MEMBRE = i.ID_MEMBRE where i.ID_CLUB = ? and u.ID_USER = ? and i.is_accepted = true";
+        String sql = "select count(*) from users u join membres m on u.ID_MEMBRE = m.ID_MEMBRE join integrer i on m.ID_MEMBRE = i.ID_MEMBRE where i.ID_CLUB = ? and u.ID_USER = ?";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1, club.getIdClub());
@@ -256,7 +282,7 @@ public class ClubDAOImp implements ClubDAO {
     @Override
     public int getMembersCountByClubId(int idClub) {
         int membersCount = 0;
-        String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer WHERE ID_CLUB = ?";
+        String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer WHERE ID_CLUB = ? and is_accepted=true";
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
@@ -275,12 +301,11 @@ public class ClubDAOImp implements ClubDAO {
 
     @Override
     public Club updateClub(Club club) {
-        String sql = "UPDATE CLUBS SET ID_USER = ?, NOM = ? WHERE ID_CLUB = ?";
+        String sql = "UPDATE CLUBS SET NOM = ? WHERE ID_CLUB = ?";
         try {
             pst = con.prepareStatement(sql);
-            pst.setInt(1, club.getIdUser());
-            pst.setString(2, club.getNom());
-            pst.setInt(3, club.getIdClub());
+            pst.setString(1, club.getNom());
+            pst.setInt(2, club.getIdClub());
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
                 return club;

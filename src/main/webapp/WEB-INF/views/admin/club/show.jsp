@@ -31,8 +31,8 @@
                     <tr>
                         <td>${club.nom}</td>
                         <c:choose>
-                            <c:when test="${not empty gerantNames[club.idUser]}">
-                                <td>${gerantNames[club.idUser]}</td>
+                            <c:when test="${not empty gerantNames[club.idClub]}">
+                                <td>${gerantNames[club.idClub]}</td>
                             </c:when>
                             <c:otherwise>
                                 <td>No manager</td>

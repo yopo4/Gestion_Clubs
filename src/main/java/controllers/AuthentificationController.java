@@ -1,5 +1,7 @@
 package controllers;
 
+import dao.MembreDAO;
+import dao.MembreDAOImp;
 import dao.UserDAO;
 import dao.UserDAOImp;
 import jakarta.servlet.ServletException;
@@ -18,6 +20,7 @@ public class AuthentificationController extends HttpServlet {
     private final String HOME_PAGE = "/WEB-INF/views/home.jsp";
     private final String ADMIN_HOME_PAGE = "/WEB-INF/views/admin/home.jsp";
     private UserDAO userDAO = new UserDAOImp();
+    private MembreDAO membreDAO = new MembreDAOImp();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,6 +47,13 @@ public class AuthentificationController extends HttpServlet {
                 if (user.getRole()) {
                     resp.sendRedirect(req.getContextPath() + "/admin/home");
                 } else {
+                    //check if the user is a gerant
+                    boolean isGerant =  membreDAO.isGerant(membreDAO.getMembreByUserId(user.getId_user()));
+                    if(isGerant){
+                        session.setAttribute("role","gerant");
+                    }else{
+                        session.setAttribute("role","membre");
+                    }
                     resp.sendRedirect(req.getContextPath() + "/home");
                 }
             } else {
