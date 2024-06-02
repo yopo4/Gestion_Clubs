@@ -3,6 +3,7 @@ package dao;
 import models.Club;
 import models.Event;
 import models.Membre;
+import models.User;
 import utils.ConnectionDB;
 
 import java.sql.*;
@@ -190,6 +191,65 @@ public class ClubDAOImp implements ClubDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public List<Club> getClubsOfManager(Membre membre) {
+        String sql = "SELECT C.* FROM CLUBS C INNER JOIN INTEGRER I ON C.ID_CLUB=I.ID_CLUB WHERE I.ID_MEMBRE=? AND I.ROLE = ?";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1,membre.getIdMembre());
+            pst.setBoolean(2,true);
+            rs = pst.executeQuery();
+            int idClub;
+            int idUser;
+            String nom;
+            List<Club> clubs = new ArrayList<Club>();
+            while (rs.next()){
+                Club club = new Club();
+                idClub = rs.getInt("ID_CLUB");
+                idUser = rs.getInt("ID_USER");
+                nom = rs.getString("NOM");
+                club.setIdClub(idClub);
+                club.setIdUser(idUser);
+                club.setNom(nom);
+                clubs.add(club);
+            }
+            return clubs;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public boolean userIsMemberOfClub(User user, Club club) {
+        String sql = "select count(*) from users u join membres m on u.ID_MEMBRE = m.ID_MEMBRE join integrer i on m.ID_MEMBRE = i.ID_MEMBRE where i.ID_CLUB = ? and u.ID_USER = ? and i.is_accepted = true";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, club.getIdClub());
+            pst.setInt(2, user.getId_user());
+            ResultSet rs=pst.executeQuery();
+            rs.next();
+            return rs.getInt(1)>0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public void acceptMemberInClub(Membre membre, Club club) {
+
+        String sql = "update integrer set is_accepted = true where ID_MEMBRE = ? and ID_CLUB = ?";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, membre.getIdMembre());
+            pst.setInt(2, club.getIdClub());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

@@ -2,6 +2,7 @@ package dao;
 
 import models.Club;
 import models.Membre;
+import models.User;
 
 import java.util.List;
 
@@ -15,5 +16,7 @@ public interface ClubDAO {
     int getMembersCountByClubId(int idClub);
     boolean addMembreToClub(Club club, Membre membre);
     List<Club> getClubsOfMember(int id_member);
-    Club getClubByName(String clubName);
+    List<Club> getClubsOfManager(Membre membre);
+    boolean userIsMemberOfClub(User user, Club club);
+    void acceptMemberInClub(Membre membre,Club club);
 }

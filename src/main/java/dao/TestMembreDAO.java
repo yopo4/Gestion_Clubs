@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import models.Club;
 import models.Membre;
 
 public class TestMembreDAO {
@@ -10,7 +11,26 @@ public class TestMembreDAO {
 //        testGetMembreById();
 //        testCreateMembre();
 //        testUpdateMembre();
-        testGetMembreByUserId();
+//        testGetMembreByUserId();
+//        testIsGerant();
+        testgetMembersRequestingToJoinClub();
+    }
+    public static void testgetMembersRequestingToJoinClub(){
+        MembreDAO membreDAO = new MembreDAOImp();
+        Club club = new Club();
+        club.setIdClub(4);
+        List<Membre> membres = membreDAO.getMembersRequestingToJoinClub(club);
+        System.out.println(membres);
+    }
+    public static void testIsGerant(){
+        MembreDAO membreDAO = new MembreDAOImp();
+        Membre membre = new Membre();
+        membre.setIdMembre(1);
+        if(membreDAO.isGerant(membre)){
+            System.out.println("Le membre est un gerant");
+        }else{
+            System.out.println("Le membre n'est pas un gerant");
+        }
     }
 
     public static void testGetAllMembres() {
