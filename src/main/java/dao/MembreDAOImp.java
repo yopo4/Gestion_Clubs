@@ -89,6 +89,7 @@ public class MembreDAOImp implements MembreDAO {
         }
         return null;
     }
+
     @Override
     public Membre getMembreByUserId(int userId) {
         Membre membre = null;
@@ -121,8 +122,8 @@ public class MembreDAOImp implements MembreDAO {
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, membre.getIdMembre());
             ResultSet rs = statement.executeQuery();
-            while(rs.next()){
-                if(rs.getBoolean("role")){
+            while (rs.next()) {
+                if (rs.getBoolean("role")) {
                     return true;
                 }
             }
@@ -134,18 +135,19 @@ public class MembreDAOImp implements MembreDAO {
     }
 
     @Override
-    public List<Membre> getMembersRequestingToJoinClub(Club club) {
-        String query = "select m.* from membres m join integrer i on m.ID_MEMBRE = i.ID_MEMBRE join clubs c on c.ID_CLUB = i.ID_CLUB where c.ID_CLUB = ? and i.is_accepted = false";
+    public List<Membre> getMembersOfClub(Club club, boolean accepted) {
+        String query = "select m.* from membres m join integrer i on m.ID_MEMBRE = i.ID_MEMBRE join clubs c on c.ID_CLUB = i.ID_CLUB where c.ID_CLUB = ? and i.is_accepted = ?";
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, club.getIdClub());
+            statement.setBoolean(2, accepted);
             ResultSet rs = statement.executeQuery();
             List<Membre> membres = new ArrayList<>();
-            while(rs.next()){
-               Membre membre = new Membre();
-               membre.setIdMembre(rs.getInt("id_membre"));
-               membre.setNom(rs.getString("nom"));
-               membres.add(membre);
+            while (rs.next()) {
+                Membre membre = new Membre();
+                membre.setIdMembre(rs.getInt("id_membre"));
+                membre.setNom(rs.getString("nom"));
+                membres.add(membre);
             }
             return membres;
         } catch (SQLException e) {
@@ -153,6 +155,7 @@ public class MembreDAOImp implements MembreDAO {
         }
         return null;
     }
+
 
     @Override
     public List<Membre> findUsersWithoutRoleGerant() {
@@ -195,6 +198,7 @@ public class MembreDAOImp implements MembreDAO {
             return false;
         }
     }
+
     @Override
     public boolean updateAcceptation(Membre membre, Club club, boolean isAccepted) {
         String sql = "UPDATE integrer SET is_accepted = ? WHERE id_membre = ? and id_club = ?";
@@ -220,12 +224,12 @@ public class MembreDAOImp implements MembreDAO {
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, club.getIdClub());
             ResultSet rs = statement.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 Membre membre = new Membre();
                 membre.setIdMembre(rs.getInt("id_membre"));
                 membre.setNom(rs.getString("nom"));
                 return membre;
-            }else {
+            } else {
                 return null;
             }
 
@@ -233,6 +237,20 @@ public class MembreDAOImp implements MembreDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void deleteMemberFromClub(Membre membre, Club club) {
+
+        String sql = "delete from integrer where id_membre = ? and id_club=?";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, membre.getIdMembre());
+            statement.setInt(2, club.getIdClub());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

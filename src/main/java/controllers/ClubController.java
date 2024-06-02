@@ -37,9 +37,7 @@ public class ClubController extends HttpServlet {
         boolean isGerantOfClub = clubDAO.isGerantOfClub(membre,club);
         String gerantNames = membreDAO.getClubManager(club) == null ? "No manager assigned yet":membreDAO.getClubManager(club).getNom();
         int clubMembersCount = clubDAO.getMembersCountByClubId(club.getIdClub());
-        System.out.println("test "+clubId);
-        System.out.println(clubMembersCount);
-        System.out.println(clubDAO.getClubById(clubId).toString());
+
 
         request.setAttribute("club", club);
         request.setAttribute("clubMembersCount", clubMembersCount);

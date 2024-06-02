@@ -31,8 +31,8 @@
             </c:if>
             <c:if test='${isGerantOfClub}'>
                 <div class="grid">
-                    <a href="#"><button class="btn btn-dark">Members</button></a>
-                    <a href="#"><button class="btn btn-dark">Requests to join</button></a>
+                    <a href="${pageContext.request.contextPath}/members?id_club=${club.idClub}"><button class="btn btn-dark">Members</button></a>
+                    <a href="${pageContext.request.contextPath}/requests?id_club=${club.idClub}"><button class="btn btn-dark">Requests to join</button></a>
                 </div>
             </c:if>
         </div>
