@@ -1,5 +1,6 @@
 package dao;
 
+import models.Club;
 import models.Membre;
 import utils.ConnectionDB;
 
