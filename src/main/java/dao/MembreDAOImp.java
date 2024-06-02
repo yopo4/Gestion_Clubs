@@ -181,9 +181,9 @@ public class MembreDAOImp implements MembreDAO {
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setInt(1, role ? 1 : 0);
-            statement.setInt(2, membre.getIdMembre());
-            statement.setInt(3, club.getIdClub());
+            statement.setBoolean(1, role);
+            statement.setInt(2, club.getIdClub());
+            statement.setInt(3, membre.getIdMembre());
 
 
             System.out.println(membre + " " + club);
@@ -237,7 +237,7 @@ public class MembreDAOImp implements MembreDAO {
 
     @Override
     public boolean createMembreAndInsertItInIntegrer(Membre membre, Club club) {
-        String query = "INSERT INTO integrer (id_club, id_membre) VALUES (?)";
+        String query = "INSERT INTO integrer (id_club, id_membre) VALUES (?,?)";
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
