@@ -2,6 +2,16 @@ package models;
 
 public class Membre {
     private int idMembre;
+
+    //added equals for List.remove to work by idMembre
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Membre membre = (Membre) o;
+        return idMembre == membre.idMembre;
+    }
+
     private String nom;
 
     public int getIdMembre() {

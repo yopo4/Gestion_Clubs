@@ -183,7 +183,7 @@ public class ClubDAOImp implements ClubDAO {
 
     @Override
     public List<Club> getClubsOfMember(int id_member) {
-        String sql = "SELECT C.* FROM CLUBS C INNER JOIN INTEGRER I ON C.ID_CLUB=I.ID_CLUB WHERE I.ID_MEMBRE=?";
+        String sql = "SELECT C.* FROM CLUBS C INNER JOIN INTEGRER I ON C.ID_CLUB=I.ID_CLUB WHERE I.ID_MEMBRE=? and i.is_accepted=true";
         try {
             pst = con.prepareStatement(sql);
             pst.setInt(1,id_member);
@@ -265,7 +265,7 @@ public class ClubDAOImp implements ClubDAO {
     @Override
     public int getMembersCountByClubId(int idClub) {
         int membersCount = 0;
-        String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer WHERE ID_CLUB = ?";
+        String query = "SELECT count(ID_MEMBRE) as membersCount FROM integrer WHERE ID_CLUB = ? and is_accepted=true";
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 

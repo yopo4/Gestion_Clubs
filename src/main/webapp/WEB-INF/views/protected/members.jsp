@@ -39,7 +39,18 @@
                             </td>
             </c:if>
             <c:if test="${officials == false}">
-                            <td><a href="#" class="badge badge-secondary">Accept</a><a href="#" class="badge badge-danger">Refuse</a></td>
+                            <td>
+                                <form style="display:inline" method = "post" action="${pageContext.request.contextPath}/requests/accept">
+                                    <input type="text" name="club" value="${club.idClub}" hidden/>
+                                    <input type="text" name="member" value="${member.idMembre}" hidden/>
+                                    <button type="submit" class="badge badge-secondary">Accept</button>
+                                </form>
+                                <form style="display:inline" method = "post" action="${pageContext.request.contextPath}/requests/refuse">
+                                    <input type="text" name="club" value="${club.idClub}" hidden/>
+                                    <input type="text" name="member" value="${member.idMembre}" hidden/>
+                                    <button type="submit" class="badge badge-danger">Refuse</button>
+                                </form>
+                            </td>
             </c:if>
                         </tr>
                     </c:forEach>

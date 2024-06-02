@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-@WebServlet(name = "members", value = {"/members", "/requests", "/members/delete"})
+@WebServlet(name = "members", value = {"/members", "/requests", "/members/delete","/requests/accept","/requests/refuse"})
 public class MemberController extends HttpServlet {
 
     private final String MEMBERS_PAGE = "/WEB-INF/views/protected/members.jsp";
@@ -29,12 +29,12 @@ public class MemberController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        int clubId = Integer.parseInt(request.getParameter("id_club"));
         User user = (User) session.getAttribute("user");
         if (user == null) {
             response.sendRedirect("/Gestion_Clubs/login");
             return;
         }
+        int clubId = Integer.parseInt(request.getParameter("id_club"));
         Club club = clubDAO.getClubById(clubId);
         Membre membre = membreDAO.getMembreByUserId(user.getId_user());
         boolean isGerantOfClub = clubDAO.isGerantOfClub(membre, club);
@@ -50,6 +50,11 @@ public class MemberController extends HttpServlet {
             request.setAttribute("officials", false);
             membres = membreDAO.getMembersOfClub(club, false);
         }
+        //don't send the manager in the list of members
+        Membre manager = membreDAO.getMembreByUserId(user.getId_user());
+        System.out.println("before: " + membres);
+        membres.remove(manager);
+        System.out.println("after: " + membres);
         request.setAttribute("club", club);
         request.setAttribute("members", membres);
         request.getRequestDispatcher(MEMBERS_PAGE).forward(request, response);
@@ -57,14 +62,20 @@ public class MemberController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id_membre = Integer.parseInt(request.getParameter("member"));
+        int id_club = Integer.parseInt(request.getParameter("club"));
+        Membre membre = membreDAO.getMembreById(id_membre);
+        Club club = clubDAO.getClubById(id_club);
         if (request.getServletPath().equals("/members/delete")) {
-            int id_membre = (int) request.getAttribute("member");
-            int id_club = (int) request.getAttribute("club");
-            Membre membre = membreDAO.getMembreById(id_membre);
-            Club club = clubDAO.getClubById(id_club);
-            System.out.println(id_membre + " " + id_club);
+            membreDAO.deleteMemberFromClub(membre, club);
+            request.getRequestDispatcher(MEMBERS_PAGE).forward(request, response);
+        }else if(request.getServletPath().equals("/requests/accept")){
+            membreDAO.updateAcceptation(membre,club,true);
+            request.getRequestDispatcher(MEMBERS_PAGE).forward(request, response);
+        }else if(request.getServletPath().equals("/requests/refuse")){
             membreDAO.deleteMemberFromClub(membre,club);
-            request.getRequestDispatcher(MEMBERS_PAGE).forward(request,response);
+            request.getRequestDispatcher(MEMBERS_PAGE).forward(request, response);
         }
+
     }
 }
