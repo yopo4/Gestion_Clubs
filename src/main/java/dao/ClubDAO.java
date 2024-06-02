@@ -21,6 +21,7 @@ public interface ClubDAO {
     boolean userIsMemberOfClub(User user, Club club);
     void acceptMemberInClub(Membre membre,Club club);
     Club getClubByName(String clubName);
+    int getNumberOfRequests(Club club);
     //check if the member is the manager of the club
     boolean isGerantOfClub(Membre membre, Club club);
 }

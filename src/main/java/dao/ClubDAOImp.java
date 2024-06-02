@@ -79,6 +79,23 @@ public class ClubDAOImp implements ClubDAO {
     }
 
     @Override
+    public int getNumberOfRequests(Club club) {
+        String sql = "select count(*) as requests from integrer i where i.ID_CLUB = ? and i.is_accepted = 0";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, club.getIdClub());
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("requests");
+            }
+            return 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
     public boolean isGerantOfClub(Membre membre, Club club) {
         String sql = "select role from integrer i where i.ID_MEMBRE = ? and i.ID_CLUB = ?;";
         try {

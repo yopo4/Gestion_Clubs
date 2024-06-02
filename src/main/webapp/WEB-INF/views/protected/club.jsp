@@ -30,6 +30,7 @@
                 </form>
             </c:if>
             <c:if test='${isGerantOfClub}'>
+                <p class="mb-2"><strong>Requests :</strong> ${clubRequestsCount}</p>
                 <div class="grid">
                     <a href="${pageContext.request.contextPath}/members?id_club=${club.idClub}"><button class="btn btn-dark">Members</button></a>
                     <a href="${pageContext.request.contextPath}/requests?id_club=${club.idClub}"><button class="btn btn-dark">Requests to join</button></a>
