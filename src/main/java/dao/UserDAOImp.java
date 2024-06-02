@@ -68,5 +68,42 @@ public class UserDAOImp implements UserDAO {
         return user;
     }
 
+    @Override
+    public int getLastId() {
+        int id = 0;
+        String query = "SELECT id_user FROM users order by id_user desc limit 1";
 
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    id = resultSet.getInt("id_user");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
+    @Override
+    public boolean createUser(User newUser) {
+        String query = "INSERT INTO users (nom, email, mot_de_passe, id_membre) VALUES (?, ?, ?, ?)";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, newUser.getNom());
+            statement.setString(2, newUser.getEmail());
+            statement.setString(3, newUser.getPassword());
+            statement.setInt(4, newUser.getId_membre());
+
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

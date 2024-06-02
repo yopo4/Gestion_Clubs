@@ -20,4 +20,5 @@ public interface MembreDAO {
     boolean updateAcceptation(Membre membre, Club club, boolean isAccepted);
     Membre getClubManager(Club club);
     void deleteMemberFromClub(Membre membre,Club club);
+    int getLastId();
 }

@@ -40,7 +40,8 @@
                         <label for="password" class="text-sm font-weight-medium">Password</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-dark btn-block">Login</button>
+                    <button type="submit" class="btn btn-dark btn-block mb-2">Login</button>
+                    <a class="text-dark mt-2" href="${pageContext.request.contextPath}/signup">Don't have an account ?</a>
                 </form>
             </div>
         </div>

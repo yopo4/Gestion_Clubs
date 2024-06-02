@@ -42,8 +42,11 @@
             </li>
         </ul>
         <c:if test="${sessionScope.user == null}">
-            <form class="form-inline my-2 my-lg-0">
+            <form class="form-inline my-2 my-lg-0 mr-2">
                 <a class="btn btn-outline-dark my-2 my-sm-0" href="${pageContext.request.contextPath}/login">Login</a>
+            </form>
+            <form class="form-inline my-2 my-lg-0">
+                <a class="btn btn-dark my-2 my-sm-0" href="${pageContext.request.contextPath}/signup">Signup</a>
             </form>
         </c:if>
         <c:if test="${sessionScope.user != null}">

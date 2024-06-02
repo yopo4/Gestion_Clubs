@@ -70,7 +70,25 @@ public class MembreDAOImp implements MembreDAO {
             return false;
         }
     }
+    @Override
+    public int getLastId() {
+        int id = 0;
+        String query = "SELECT id_membre FROM membres order by id_membre desc limit 1";
 
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    id = resultSet.getInt("id_membre");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
     @Override
     public Membre updateMembre(Membre membre) {
         String query = "UPDATE MEMBRES SET NOM = ? WHERE ID_MEMBRE = ?";
