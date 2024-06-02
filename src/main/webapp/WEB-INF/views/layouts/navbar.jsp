@@ -37,7 +37,7 @@
             </li>
             <li class="nav-item">
                 <c:if test="${sessionScope.user != null && !sessionScope.user.getRole()}">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/myClubs">My club <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/myClubs">My clubs <span class="sr-only">(current)</span></a>
                 </c:if>
             </li>
         </ul>

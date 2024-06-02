@@ -18,4 +18,5 @@ public interface MembreDAO {
     boolean updateUserRole(Membre membre, Club club, boolean role);
     boolean createMembreAndInsertItInIntegrer(Membre membre, Club club);
     boolean updateAcceptation(Membre membre, Club club, boolean isAccepted);
+    Membre getClubManager(Club club);
 }

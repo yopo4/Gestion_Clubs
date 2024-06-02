@@ -24,9 +24,17 @@
             <h4>${club.nom}</h4>
             <p><strong>Manager :</strong> ${gerantNames}</p>
             <p class="mb-2"><strong>Members :</strong> ${clubMembersCount}</p>
-            <form action="${pageContext.request.contextPath}/AttendClubController?id=${club.idClub}" method="post">
-                <button class="btn btn-dark">Join</button>
-            </form>
+            <c:if test='${isPartOfClub == false}'>
+                <form action="${pageContext.request.contextPath}/AttendClubController?id=${club.idClub}" method="post">
+                    <button class="btn btn-dark">Join</button>
+                </form>
+            </c:if>
+            <c:if test='${isGerantOfClub}'>
+                <div class="grid">
+                    <a href="#"><button class="btn btn-dark">Members</button></a>
+                    <a href="#"><button class="btn btn-dark">Requests to join</button></a>
+                </div>
+            </c:if>
         </div>
     </div>
 </div>

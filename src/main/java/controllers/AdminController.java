@@ -51,7 +51,7 @@ public class AdminController extends HttpServlet {
         List<Event> events = eventDAO.selectTopEventsByMembersCount(top);
 
         for (Club club : clubs) {
-            gerantNames.put(club.getIdUser(), clubDAO.getGerantNameById(club.getIdUser()));
+//            gerantNames.put(club.getIdUser(), clubDAO.getGerantNameById(club.getIdUser()));
             clubMembersCount.put(club.getIdClub(), clubDAO.getMembersCountByClubId(club.getIdClub()));
         }
 
@@ -95,9 +95,9 @@ public class AdminController extends HttpServlet {
             if (user != null) {
                 int clubId = Integer.parseInt(request.getParameter("id"));
                 Club club = clubDAO.getClubById(clubId);
-                User manager = userDAO.getUserById(club.getIdUser());
+//                User manager = userDAO.getUserById(club.getIdUser());
                 request.setAttribute("club", club);
-                request.setAttribute("manager", manager);
+//                request.setAttribute("manager", manager);
                 request.setAttribute("noManagerMembers", noManagerMembers);
                 request.getRequestDispatcher(UPDATE_CLUB_PAGE).forward(request, response);
             } else {
@@ -136,7 +136,7 @@ public class AdminController extends HttpServlet {
 
             Club club = new Club();
             club.setNom(clubName);
-            club.setIdUser(gerantId);
+//            club.setIdUser(gerantId);
 
             clubDAO.createClub(club);
             club = clubDAO.getClubByName(club.getNom());
@@ -156,25 +156,25 @@ public class AdminController extends HttpServlet {
             int gerantId = Integer.parseInt(request.getParameter("gerantId"));
 
             Club club = clubDAO.getClubById(clubId);
-            int previousGerantId = club.getIdUser();
+//            int previousGerantId = club.getIdUser();
 
             club.setNom(clubName);
-            club.setIdUser(gerantId);
+//            club.setIdUser(gerantId);
             clubDAO.updateClub(club);
 
-            if (previousGerantId != gerantId) {
-                User previousGerant = userDAO.getUserById(previousGerantId);
-                User newGerant = userDAO.getUserById(gerantId);
-
-                if (previousGerant != null && !previousGerant.getRole()) {
-                    previousGerant.setRole(false);
-//                    userDAO.updateUserRole(previousGerant);
-                }
-                if (newGerant != null && !newGerant.getRole()) {
-                    newGerant.setRole(false);
-//                    userDAO.updateUserRole(newGerant);
-                }
-            }
+//            if (previousGerantId != gerantId) {
+//                User previousGerant = userDAO.getUserById(previousGerantId);
+//                User newGerant = userDAO.getUserById(gerantId);
+//
+//                if (previousGerant != null && !previousGerant.getRole()) {
+//                    previousGerant.setRole(false);
+////                    userDAO.updateUserRole(previousGerant);
+//                }
+//                if (newGerant != null && !newGerant.getRole()) {
+//                    newGerant.setRole(false);
+////                    userDAO.updateUserRole(newGerant);
+//                }
+//            }
 
             response.sendRedirect(request.getContextPath() + "/admin/clubs/show");
         } else if ("/admin/events/add".equals(path)) {

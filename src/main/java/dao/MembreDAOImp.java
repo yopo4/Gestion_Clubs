@@ -214,6 +214,28 @@ public class MembreDAOImp implements MembreDAO {
     }
 
     @Override
+    public Membre getClubManager(Club club) {
+        String query = "select m.* from membres m join integrer i on m.ID_MEMBRE = i.ID_MEMBRE where i.ID_CLUB = ? and i.`Role` = true";
+        try (Connection connection = ConnectionDB.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, club.getIdClub());
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                Membre membre = new Membre();
+                membre.setIdMembre(rs.getInt("id_membre"));
+                membre.setNom(rs.getString("nom"));
+                return membre;
+            }else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public boolean createMembreAndInsertItInIntegrer(Membre membre, Club club) {
         String query = "INSERT INTO integrer (id_club, id_membre) VALUES (?)";
         try (Connection connection = ConnectionDB.getConnection();

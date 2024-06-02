@@ -2,6 +2,8 @@ package controllers;
 
 import dao.ClubDAO;
 import dao.ClubDAOImp;
+import dao.MembreDAO;
+import dao.MembreDAOImp;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -21,6 +23,7 @@ public class ClubsController extends HttpServlet {
     private final String CLUBS_PAGE = "/WEB-INF/views/protected/clubs.jsp";
 
     private ClubDAO clubDAO = new ClubDAOImp();
+    private MembreDAO membreDAO = new MembreDAOImp();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,7 +44,8 @@ public class ClubsController extends HttpServlet {
         Map<Integer, Integer> clubMembersCount = new HashMap<>();
 
         for (Club club : clubs) {
-            gerantNames.put(club.getIdUser(), clubDAO.getGerantNameById(club.getIdUser()));
+            String managerName = membreDAO.getClubManager(club) == null ? "No manager Assigned yet" : membreDAO.getClubManager(club).getNom();
+            gerantNames.put(club.getIdClub(),managerName);
             clubMembersCount.put(club.getIdClub(), clubDAO.getMembersCountByClubId(club.getIdClub()));
         }
 
