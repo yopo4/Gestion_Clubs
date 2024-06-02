@@ -23,8 +23,8 @@
                 <select class="form-control" name="gerantId" id="gerantId" required>
                     <option value="0" selected>--Select a manager--</option>
                     <option value="0">No manager</option>
-                    <c:forEach var="user" items="${noManagerUsers}">
-                        <option value="${user.id_user}">${user.nom}</option>
+                    <c:forEach var="membre" items="${noManagerMembers}">
+                        <option value="${membre.idMembre}">${membre.nom}</option>
                     </c:forEach>
                 </select>
             </div>

@@ -7,7 +7,7 @@ public class User {
 
 
     private String password;
-    private String role;
+    private boolean role;
     private int id_membre;
 
     public int getId_user() {
@@ -42,11 +42,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public boolean getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(boolean role) {
         this.role = role;
     }
     public int getId_membre() {

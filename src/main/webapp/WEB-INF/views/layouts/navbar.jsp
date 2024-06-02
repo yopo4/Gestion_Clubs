@@ -21,23 +21,23 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
                 <a class="nav-link" href="${pageContext.request.contextPath}/home"
-                    <c:if test="${sessionScope.user != null && sessionScope.user.getRole() == 'admin'}">hidden</c:if>>Home <span class="sr-only">(current)</span></a>
+                    <c:if test="${sessionScope.user != null && sessionScope.user.getRole()}">hidden</c:if>>Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<c:choose>
-                    <c:when test="${sessionScope.user != null && sessionScope.user.getRole() == 'admin'}">${pageContext.request.contextPath}/admin/clubs/show</c:when>
+                    <c:when test="${sessionScope.user != null && sessionScope.user.getRole()}">${pageContext.request.contextPath}/admin/clubs/show</c:when>
                     <c:otherwise>${pageContext.request.contextPath}/clubs</c:otherwise>
                 </c:choose>">Clubs <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<c:choose>
-                    <c:when test="${sessionScope.user != null && sessionScope.user.getRole() == 'admin'}">${pageContext.request.contextPath}/admin/events/show</c:when>
+                    <c:when test="${sessionScope.user != null && sessionScope.user.getRole()}">${pageContext.request.contextPath}/admin/events/show</c:when>
                     <c:otherwise>${pageContext.request.contextPath}/events</c:otherwise>
                 </c:choose>">Events <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <c:if test="${sessionScope.user != null}">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/myClubs">My Club <span class="sr-only">(current)</span></a>
+                <c:if test="${sessionScope.user != null && !sessionScope.user.getRole()}">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/myClubs">My club <span class="sr-only">(current)</span></a>
                 </c:if>
             </li>
         </ul>

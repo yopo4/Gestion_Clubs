@@ -15,4 +15,5 @@ public interface ClubDAO {
     int getMembersCountByClubId(int idClub);
     boolean addMembreToClub(Club club, Membre membre);
     List<Club> getClubsOfMember(int id_member);
+    Club getClubByName(String clubName);
 }

@@ -6,6 +6,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import models.Club;
 import models.Event;
+import models.Membre;
 import models.User;
 
 import java.io.IOException;
@@ -35,6 +36,7 @@ public class AdminController extends HttpServlet {
     private ClubDAO clubDAO = new ClubDAOImp();
     private EventDAO eventDAO = new EventDAOImp();
     private UserDAO userDAO = new UserDAOImp();
+    private MembreDAO membreDAO = new MembreDAOImp();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,7 +46,7 @@ public class AdminController extends HttpServlet {
         Map<Integer, String> gerantNames = new HashMap<>();
         Map<Integer, Integer> clubMembersCount = new HashMap<>();
         Map<Integer, Integer> eventMembersCount = new HashMap<>();
-        List<User> noManagerUsers = userDAO.findUsersWithoutRoleGerant();
+        List<Membre> noManagerMembers = membreDAO.findUsersWithoutRoleGerant();
         List<Club> clubs = clubDAO.getTopClubs(top);
         List<Event> events = eventDAO.selectTopEventsByMembersCount(top);
 
@@ -84,7 +86,7 @@ public class AdminController extends HttpServlet {
             }
         } else if ("/admin/clubs/add".equals(path)) {
             if (user != null) {
-                request.setAttribute("noManagerUsers", noManagerUsers);
+                request.setAttribute("noManagerMembers", noManagerMembers);
                 request.getRequestDispatcher(ADD_CLUB_PAGE).forward(request, response);
             } else {
                 request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
@@ -96,7 +98,7 @@ public class AdminController extends HttpServlet {
                 User manager = userDAO.getUserById(club.getIdUser());
                 request.setAttribute("club", club);
                 request.setAttribute("manager", manager);
-                request.setAttribute("noManagerUsers", noManagerUsers);
+                request.setAttribute("noManagerMembers", noManagerMembers);
                 request.getRequestDispatcher(UPDATE_CLUB_PAGE).forward(request, response);
             } else {
                 request.getRequestDispatcher(LOGIN_PAGE).forward(request, response);
@@ -132,19 +134,21 @@ public class AdminController extends HttpServlet {
             System.out.println("Club Name: " + clubName);
             System.out.println("Gerant ID: " + gerantId);
 
-            User gerant = userDAO.getUserById(gerantId);
-            if (gerant != null) {
-                if ("membre".equalsIgnoreCase(gerant.getRole())) {
-                    gerant.setRole("gerant");
-                    userDAO.updateUserRole(gerant);
-                }
-            }
-
             Club club = new Club();
             club.setNom(clubName);
             club.setIdUser(gerantId);
 
             clubDAO.createClub(club);
+            club = clubDAO.getClubByName(club.getNom());
+
+            Membre gerant = membreDAO.getMembreById(gerantId);
+            if (gerant != null) {
+                System.out.println("test");
+                membreDAO.createMembreAndInsertItInIntegrer(gerant, club);
+                membreDAO.updateAcceptation(gerant, club, true);
+                membreDAO.updateUserRole(gerant, club, true);
+            }
+
             response.sendRedirect(request.getContextPath() + "/admin/clubs/show");
         } else if ("/admin/clubs/update".equals(path)) {
             int clubId = Integer.parseInt(request.getParameter("clubId"));
@@ -162,13 +166,13 @@ public class AdminController extends HttpServlet {
                 User previousGerant = userDAO.getUserById(previousGerantId);
                 User newGerant = userDAO.getUserById(gerantId);
 
-                if (previousGerant != null && !"admin".equals(previousGerant.getRole())) {
-                    previousGerant.setRole("membre");
-                    userDAO.updateUserRole(previousGerant);
+                if (previousGerant != null && !previousGerant.getRole()) {
+                    previousGerant.setRole(false);
+//                    userDAO.updateUserRole(previousGerant);
                 }
-                if (newGerant != null && !"admin".equals(newGerant.getRole())) {
-                    newGerant.setRole("gerant");
-                    userDAO.updateUserRole(newGerant);
+                if (newGerant != null && !newGerant.getRole()) {
+                    newGerant.setRole(false);
+//                    userDAO.updateUserRole(newGerant);
                 }
             }
 

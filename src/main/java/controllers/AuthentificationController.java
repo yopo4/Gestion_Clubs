@@ -41,7 +41,7 @@ public class AuthentificationController extends HttpServlet {
             if (user != null) {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
-                if (user.getRole().equals("admin")) {
+                if (user.getRole()) {
                     resp.sendRedirect(req.getContextPath() + "/admin/home");
                 } else {
                     resp.sendRedirect(req.getContextPath() + "/home");

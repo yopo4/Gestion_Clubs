@@ -62,6 +62,25 @@ public class ClubDAOImp implements ClubDAO {
         }
     }
     @Override
+    public Club getClubByName(String clubName) {
+        String sql = "SELECT * FROM CLUBS WHERE nom = ?";
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setString(1, clubName);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                int idClub = rs.getInt("ID_CLUB");
+                int idUser = rs.getInt("ID_USER");
+                String nom = rs.getString("NOM");
+                return new Club(idClub, idUser, nom);
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    @Override
     public boolean createClub(Club club) {
         String sql = "INSERT INTO CLUBS (ID_USER, NOM) VALUES (?, ?)";
         try {

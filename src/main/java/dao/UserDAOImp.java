@@ -29,7 +29,7 @@ public class UserDAOImp implements UserDAO {
                     user.setNom(resultSet.getString("nom"));
                     user.setEmail(resultSet.getString("email"));
                     user.setPassword(resultSet.getString("mot_de_passe"));
-                    user.setRole(resultSet.getString("role"));
+                    user.setRole(resultSet.getBoolean("role"));
                 }
             }
         } catch (SQLException e) {
@@ -37,23 +37,6 @@ public class UserDAOImp implements UserDAO {
         }
 
         return user;
-    }
-
-    @Override
-    public boolean updateUserRole(User user) {
-        String sql = "UPDATE users SET role = ? WHERE id_user = ?";
-        try (Connection connection = ConnectionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-
-            statement.setString(1, user.getRole());
-            statement.setInt(2, user.getId_user());
-
-            int affectedRows = statement.executeUpdate();
-            return affectedRows > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     @Override
@@ -74,7 +57,7 @@ public class UserDAOImp implements UserDAO {
                     user.setNom(resultSet.getString("nom"));
                     user.setEmail(resultSet.getString("email"));
                     user.setPassword(resultSet.getString("mot_de_passe"));
-                    user.setRole(resultSet.getString("role"));
+                    user.setRole(resultSet.getBoolean("role"));
                     user.setId_membre(resultSet.getInt("id_membre"));
                 }
             }
@@ -84,29 +67,6 @@ public class UserDAOImp implements UserDAO {
 
         return user;
     }
-    @Override
-    public List<User> findUsersWithoutRoleGerant() {
-        List<User> users = new ArrayList<>();
-        String query = "SELECT * FROM users WHERE role != 'gerant'";
 
-        try (Connection connection = ConnectionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                User user = new User();
-                user.setId_user(resultSet.getInt("id_user"));
-                user.setNom(resultSet.getString("nom"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("mot_de_passe"));
-                user.setRole(resultSet.getString("role"));
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return users;
-    }
 
 }
