@@ -195,6 +195,7 @@ public class MembreDAOImp implements MembreDAO {
             return false;
         }
     }
+
     @Override
     public boolean updateAcceptation(Membre membre, Club club, boolean isAccepted) {
         String sql = "UPDATE integrer SET is_accepted = ? WHERE id_membre = ? and id_club = ?";
